@@ -1,0 +1,39 @@
+Semantics = SingleAssignment;
+
+Agent Submarine
+    Vars:
+    	surface: boolean;
+    	lidOpen: boolean;
+    	sunk: boolean;
+    end Vars
+    
+    Actions = {up, down, close, open};
+
+    Protocol:
+    	lidOpen = false and sunk = false: {up, down, open};
+    	surface = true and lidOpen = true and sunk = false: {up, down, close};
+    	sunk = true: {down};
+    	
+    end Protocol
+    Evolution:
+    	(surface = true) if (Action = up);
+    	(surface = false) if (Action = down);
+    	(lidOpen = true) if (Action = open);
+    	(lidOpen = false) if (Action = close);
+    	(sunk = true) if ((surface = false and Action = open) or (lidOpen = true and Action = down));
+    end Evolution
+end Agent
+
+Evaluation
+	surface if Submarine.surface = true;
+	lidOpen if Submarine.lidOpen = true;
+	sunk if Submarine.sunk = true;
+end Evaluation
+
+InitStates
+	Submarine.surface = true and Submarine.lidOpen = false and Submarine.sunk = false;
+end InitStates
+
+Formulae
+	AF (surface and !sunk and !lidOpen);
+end Formulae
