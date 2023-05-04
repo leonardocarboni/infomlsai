@@ -1,0 +1,7 @@
+-- State 0 --
+  Agent Environment
+  Agent Submarine
+    lidOpen=false
+    sunk=false
+    surface=true
+
