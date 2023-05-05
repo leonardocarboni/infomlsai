@@ -38,11 +38,9 @@ Formulae
 	AF (surface and !sunk and !lidOpen); --2.5.1
 	AG (surface -> EF (!surface)); --2.5.2
 	AG (!lidOpen -> EF (lidOpen)); --2.5.3
-	EF (EG (!surface and !sunk)); --2.5.4 not sure about this one
+	EF (EG (!surface and !sunk)); --2.5.4
 	AG (!lidOpen); --2.6.1
 	AF (sunk); --2.6.2
-	E (sunk U !sunk); --2.6.3 this should be false but it's true for some reason, logic seems ok?
-	AG (!sunk -> AX (!sunk) and AX ( AX (!sunk))); --2.6.4 not sure but the counterexample makes sense
-	
-	
+	AG (sunk -> EF (!sunk)); --2.6.3
+	AG (AX (!sunk) and AX ( AX (!sunk))); --2.6.4
 end Formulae
