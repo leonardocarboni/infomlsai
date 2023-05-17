@@ -1,0 +1,16 @@
+-- State 0 --
+  Agent Environment
+    open=false
+    sunk=false
+    surface=true
+  Agent Submarine
+    dummy=false
+
+-- State 1 --
+  Agent Environment
+    open=false
+    sunk=false
+    surface=false
+  Agent Submarine
+    dummy=false
+

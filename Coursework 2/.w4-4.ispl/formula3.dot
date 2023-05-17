@@ -1,0 +1,7 @@
+digraph witness2 {
+ 0 [label="0",shape=ellipse]
+ 1 [label="1",shape=ellipse]
+ 2 [label="2",shape=ellipse]
+    0 -> 1[label="<close>"]
+    1 -> 2[label="<open>"]
+}

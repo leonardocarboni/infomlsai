@@ -1,0 +1,63 @@
+-- Group 5: Giacomo Bais, Leonardo Carboni, Vito Vekic
+Semantics = SingleAssignment;
+
+Agent Environment
+
+	Vars:
+		open: boolean;
+		sunk: boolean;
+		surface: boolean;
+    end Vars
+	Actions = {};
+	Protocol:
+	end Protocol
+    Evolution:
+		surface = true if surface = false and Submarine.Action = up;
+		surface = true if surface = true and (Submarine.Action = up or Submarine.Action = open or Submarine.Action = close);
+        surface = false if surface = true and Submarine.Action = down;
+        surface = false if surface = false and (Submarine.Action = down or Submarine.Action = open or Submarine.Action = close);
+		open = true if open = false and Submarine.Action = open;
+        open = true if open = true and (Submarine.Action = up or Submarine.Action = open or Submarine.Action = down);
+        open = false if open = true and Submarine.Action = close;
+        open = false if open = false and (Submarine.Action = up or Submarine.Action = close or Submarine.Action = down);
+		sunk = true if open = true and Submarine.Action = down;
+        sunk = true if surface = false and Submarine.Action = open;
+       	sunk = false if sunk = false and (Submarine.Action = up or Submarine.Action = close);
+        sunk = false if sunk = false and open = false and Submarine.Action = down;
+        sunk = false if sunk = false and surface = true and Submarine.Action = open;    
+    end Evolution
+end Agent
+
+Agent Submarine
+	Lobsvars = {open, sunk};
+		
+    Vars:
+    	dummy: boolean;
+    end Vars
+    
+    Actions = {up, down, close, open};
+    Protocol:
+    	Environment.sunk = false : {up, down, open, close};
+        Environment.sunk = true  : {down};
+    end Protocol
+    
+    Evolution:
+    	dummy = true if dummy = true;
+    end Evolution
+end Agent
+
+Evaluation
+	surface if Environment.surface = true;
+	open if Environment.open = true;
+	sunk if Environment.sunk = true;
+end Evaluation
+
+InitStates
+	Environment.surface = true and Environment.open = false and Environment.sunk = false;
+end InitStates
+
+Formulae
+	--Initial State
+	--!K(Submarine, surface);
+	EF(K(Submarine, surface));
+end Formulae
