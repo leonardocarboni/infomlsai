@@ -1,0 +1,79 @@
+-- Group 5: Giacomo Bais, Leonardo Carboni, Vito Vekic
+Semantics = SingleAssignment;
+
+Agent Environment
+    Vars:
+    	winE: boolean;
+    	state: {q0, q1, q2, q3, q4};
+    end Vars
+    Actions = {};
+    Protocol:
+    end Protocol
+    Evolution:
+		state = q1 if AgentE.Action = play1 and AgentO.Action = play1;
+    	state = q2 if AgentE.Action = play1 and AgentO.Action = play2;
+    	state = q3 if AgentE.Action = play2 and AgentO.Action = play1;
+    	state = q4 if AgentE.Action = play2 and AgentO.Action = play2;
+    	winE = true if state = q1 or state = q4;
+    	winE = false if state = q2 or state = q3;
+    end Evolution
+end Agent
+
+-- agent E can always do what he wants
+Agent AgentE
+	Lobsvars = {state};
+    Vars:
+    	dummy: boolean;
+    end Vars
+    Actions = {play1, play2};
+    Protocol:
+    	dummy = true or dummy = false: {play1, play2};
+    end Protocol
+    Evolution:
+    	dummy = true if dummy = true;
+    end Evolution
+end Agent
+
+Agent AgentO
+	Lobsvars = {state};
+    Vars:
+    	dummy: boolean;
+    end Vars
+    Actions = {play1, play2};
+    Protocol:
+    	Environment.state = q0: {play1};
+    	Environment.state = q1: {play2};
+    	Environment.state = q2: {play1};
+    	Environment.state = q3: {play2};
+    	Environment.state = q4: {play1};
+    end Protocol
+    Evolution:
+    	dummy = true if dummy = true;
+    end Evolution
+end Agent
+
+Evaluation
+	winE if Environment.state = q1 or Environment.state = q4;
+	winO if Environment.state = q2 or Environment.state = q3;
+end Evaluation
+
+InitStates
+	Environment.state = q0 and Environment.winE = false;
+end InitStates
+
+Groups
+	gO = {AgentO};
+	gE = {AgentE};
+	g_all = {AgentE, AgentO};
+end Groups
+
+Formulae
+	<gE> X winE;
+    <gE> F winE;
+    !<gO> X winO;
+    <g_all> F winO;
+	<gE> X (EG winE);
+	
+	
+	
+end Formulae

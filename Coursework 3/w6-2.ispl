@@ -1,0 +1,108 @@
+-- Group 5: Giacomo Bais, Leonardo Carboni, Vito Vekic
+Semantics = SingleAssignment;
+
+Agent Environment
+    Vars:
+    	guardRoom: 0 .. 2;
+    	guardAlone: boolean;
+    	thiefRoom: 0 .. 2;
+    	thiefAlone: boolean;
+    	caught: boolean;
+    	stolen: boolean;
+    	escaped: boolean;
+    end Vars
+    Actions = {};
+    Protocol:
+    end Protocol
+    Evolution:
+    	guardAlone = true if !(guardRoom = thiefRoom);
+    	thiefAlone = true if !(guardRoom = thiefRoom);
+    	guardAlone = false if guardRoom = thiefRoom;
+    	thiefAlone = false if guardRoom = thiefRoom;
+    	
+    	
+    	
+		guardRoom = 1 if guardRoom = 0 and Guard.Action = moveRight;
+    	guardRoom = 2 if guardRoom = 1 and Guard.Action = moveRight;
+    	guardRoom = 0 if guardRoom = 1 and Guard.Action = moveLeft;
+    	guardRoom = 1 if guardRoom = 2 and Guard.Action = moveLeft;
+    	
+    	thiefRoom = 1 if thiefRoom = 0 and Thief.Action = moveRight;
+    	thiefRoom = 2 if thiefRoom = 1 and Thief.Action = moveRight;
+    	thiefRoom = 0 if thiefRoom = 1 and Thief.Action = moveLeft;
+    	thiefRoom = 1 if thiefRoom = 2 and Thief.Action = moveLeft;
+    	thiefRoom = 0 if thiefRoom = 0 and Thief.Action = wait;
+    	thiefRoom = 1 if thiefRoom = 1 and Thief.Action = wait;
+    	thiefRoom = 2 if thiefRoom = 2 and Thief.Action = wait;
+    	thiefRoom = 2 if thiefRoom = 2 and Thief.Action = steal;
+    	stolen = true if thiefRoom = 2 and Thief.Action = steal;
+    	
+    	escaped = true if thiefRoom = 2 and stolen = true and Thief.Action = exit;
+    	
+    	caught = true if guardRoom = thiefRoom and stolen = true;
+    	caught = true if guardRoom = thiefRoom and Thief.Action = steal;
+    	
+    	
+    end Evolution
+end Agent
+
+Agent Guard
+	Lobsvars = {guardRoom, guardAlone};
+    Vars:
+    	goingLeft: boolean;
+    	dummy: boolean;
+    end Vars
+    Actions = {moveLeft, moveRight};
+    Protocol:
+    	Environment.guardRoom = 0: {moveRight};
+    	Environment.guardRoom = 2: {moveLeft};
+    	Environment.guardRoom = 1 and goingLeft = true: {moveLeft};
+    	Environment.guardRoom = 1 and goingLeft = false: {moveRight};
+    end Protocol
+    Evolution:
+    	goingLeft = false if Environment.guardRoom = 0;
+    	goingLeft = true if Environment.guardRoom = 2;
+    	
+    end Evolution
+end Agent
+
+Agent Thief
+	Lobsvars = {thiefRoom, thiefAlone, stolen, caught};
+    Vars:
+    	dummy: boolean;
+    end Vars
+    Actions = {moveLeft, moveRight, wait, steal, exit};
+    Protocol:
+    	Environment.thiefRoom = 2: {wait, moveLeft};
+    	Environment.thiefRoom = 0: {wait, moveRight};
+    	Environment.thiefRoom = 2 and Environment.thiefAlone = true: {steal};
+    	Environment.thiefRoom = 2 and Environment.stolen = true and Environment.caught = false: {exit};
+    end Protocol
+    Evolution:
+    	dummy = true if dummy = true;
+    end Evolution
+end Agent
+
+Evaluation
+	caught if Environment.caught = true;
+	stolen if Environment.stolen = true;
+	escaped if Environment.escaped = true;
+end Evaluation
+
+InitStates
+	Environment.guardRoom = 0 and Environment.thiefRoom = 0 and Environment.thiefAlone = false and Environment.guardAlone = false and Environment.stolen = false and Environment.escaped = false and Environment.caught = false;
+end InitStates
+
+Groups
+	gT = {Thief};
+	gG = {Guard};
+	g_all = {Guard, Thief};
+end Groups
+
+Formulae
+	--<gT> G !caught;
+    <gT> F (stolen and escaped);
+    --!<gT> X stolen;
+    --!<gT> G escaped;
+    --!<gT> X caught;
+end Formulae

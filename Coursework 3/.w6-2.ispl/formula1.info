@@ -1,0 +1,15 @@
+-- State 0 --
+  Agent Environment
+    caught=false
+    escaped=false
+    guardAlone=false
+    guardRoom=0
+    stolen=false
+    thiefAlone=false
+    thiefRoom=0
+  Agent Guard
+    dummy=true
+    goingLeft=false
+  Agent Thief
+    dummy=false
+

@@ -1,0 +1,18 @@
+-- State 0 --
+  Agent Environment
+    state=q0
+    winE=false
+  Agent AgentE
+    dummy=false
+  Agent AgentO
+    dummy=false
+
+-- State 1 --
+  Agent Environment
+    state=q3
+    winE=false
+  Agent AgentE
+    dummy=false
+  Agent AgentO
+    dummy=false
+
