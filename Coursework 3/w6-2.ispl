@@ -39,8 +39,8 @@ Agent Environment
     	
     	escaped = true if thiefRoom = 2 and stolen = true and Thief.Action = exit;
     	
-    	caught = true if guardRoom = thiefRoom and stolen = true;
-    	caught = true if guardRoom = thiefRoom and Thief.Action = steal;
+    	caught = true if thiefAlone = false and stolen = true;
+    	caught = true if thiefAlone = false and Thief.Action = steal;
     	
     	
     end Evolution
@@ -75,6 +75,7 @@ Agent Thief
     Protocol:
     	Environment.thiefRoom = 2: {wait, moveLeft};
     	Environment.thiefRoom = 0: {wait, moveRight};
+    	Environment.thiefRoom = 1: {wait, moveRight, moveLeft};
     	Environment.thiefRoom = 2 and Environment.thiefAlone = true: {steal};
     	Environment.thiefRoom = 2 and Environment.stolen = true and Environment.caught = false: {exit};
     end Protocol
@@ -100,7 +101,7 @@ Groups
 end Groups
 
 Formulae
-	--<gT> G !caught;
+	-- <gT> G !caught;
     <gT> F (stolen and escaped);
     --!<gT> X stolen;
     --!<gT> G escaped;
