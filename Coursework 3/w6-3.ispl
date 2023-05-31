@@ -26,6 +26,9 @@ Agent Environment
     	guardRoom = 2 if guardRoom = 1 and Guard.Action = moveRight;
     	guardRoom = 0 if guardRoom = 1 and Guard.Action = moveLeft;
     	guardRoom = 1 if guardRoom = 2 and Guard.Action = moveLeft;
+    	guardRoom = 0 if guardRoom = 0 and Guard.Action = wait;
+    	guardRoom = 1 if guardRoom = 1 and Guard.Action = wait;
+    	guardRoom = 2 if guardRoom = 2 and Guard.Action = wait;
     	
     	thiefRoom = 1 if thiefRoom = 0 and Thief.Action = moveRight;
     	thiefRoom = 2 if thiefRoom = 1 and Thief.Action = moveRight;
@@ -47,22 +50,18 @@ Agent Environment
 end Agent
 
 Agent Guard
-	Lobsvars = {guardRoom, guardAlone};
+	Lobsvars = {guardRoom};
     Vars:
-    	goingLeft: boolean;
     	dummy: boolean;
     end Vars
-    Actions = {moveLeft, moveRight};
+    Actions = {moveLeft, moveRight, wait};
     Protocol:
-    	Environment.guardRoom = 0: {moveRight};
-    	Environment.guardRoom = 2: {moveLeft};
-    	Environment.guardRoom = 1 and goingLeft = true: {moveLeft};
-    	Environment.guardRoom = 1 and goingLeft = false: {moveRight};
+    	Environment.guardRoom = 0: {moveRight, wait};
+    	Environment.guardRoom = 2: {moveLeft, wait};
+    	Environment.guardRoom = 1: {moveLeft, moveRight, wait};
     end Protocol
     Evolution:
-    	goingLeft = false if Environment.guardRoom = 0;
-    	goingLeft = true if Environment.guardRoom = 2;
-    	
+    	dummy = true if dummy = true;
     end Evolution
 end Agent
 
@@ -101,10 +100,6 @@ Groups
 end Groups
 
 Formulae
-	-- <gT> G !caught;
-    <gT> F (stolen and escaped);
-    --!<gT> X stolen;
-    --!<gT> G escaped;
-    --!<gT> X caught;
-	<gT> (!caught U (stolen and escaped)); -- probably this to check that there is always a strategy to win
+	<gG> G (!stolen); -- does not work for w/e reason
+	<g_all> F (stolen and escaped and !caught); --works I guess?
 end Formulae

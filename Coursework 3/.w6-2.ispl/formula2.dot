@@ -1,0 +1,13 @@
+digraph witness1 {
+ 0 [label="0",shape=ellipse]
+ 1 [label="1",shape=ellipse]
+ 2 [label="2",shape=ellipse]
+ 3 [label="3",shape=ellipse]
+ 4 [label="4",shape=ellipse]
+ 5 [label="5",shape=ellipse]
+    0 -> 1[label="<moveRight;moveRight>"]
+    1 -> 2[label="<moveRight;wait>"]
+    2 -> 3[label="<moveLeft;moveRight>"]
+    3 -> 4[label="<moveLeft;steal>"]
+    4 -> 5[label="<moveRight;exit>"]
+}

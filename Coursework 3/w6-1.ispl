@@ -73,8 +73,9 @@ Formulae
     !<gO> X winO;
     <g_all> F winO;
 	<gE> X ( EG winE);
-	-- alternative, but I don't see why our original solution is not correct
-	 --<gE> G (EX winE);
+	-- alternatives, but I don't see why our original solution is not correct
+	 -- <gE> G (EX winE);
+	-- <gE> (!winE U winE);
 	
 	
 	

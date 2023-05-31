@@ -1,0 +1,70 @@
+-- State 0 --
+  Agent Environment
+    caught=false
+    escaped=false
+    guardAlone=false
+    guardRoom=0
+    stolen=false
+    thiefAlone=false
+    thiefRoom=0
+  Agent Guard
+    dummy=true
+  Agent Thief
+    dummy=false
+
+-- State 1 --
+  Agent Environment
+    caught=false
+    escaped=false
+    guardAlone=false
+    guardRoom=0
+    stolen=false
+    thiefAlone=false
+    thiefRoom=1
+  Agent Guard
+    dummy=true
+  Agent Thief
+    dummy=false
+
+-- State 2 --
+  Agent Environment
+    caught=false
+    escaped=false
+    guardAlone=true
+    guardRoom=1
+    stolen=false
+    thiefAlone=true
+    thiefRoom=2
+  Agent Guard
+    dummy=true
+  Agent Thief
+    dummy=false
+
+-- State 3 --
+  Agent Environment
+    caught=false
+    escaped=false
+    guardAlone=true
+    guardRoom=1
+    stolen=true
+    thiefAlone=true
+    thiefRoom=2
+  Agent Guard
+    dummy=true
+  Agent Thief
+    dummy=false
+
+-- State 4 --
+  Agent Environment
+    caught=false
+    escaped=true
+    guardAlone=true
+    guardRoom=1
+    stolen=true
+    thiefAlone=true
+    thiefRoom=2
+  Agent Guard
+    dummy=true
+  Agent Thief
+    dummy=false
+
