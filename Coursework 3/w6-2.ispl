@@ -4,9 +4,7 @@ Semantics = SingleAssignment;
 Agent Environment
     Vars:
     	guardRoom: 0 .. 2;
-    	guardAlone: boolean;
     	thiefRoom: 0 .. 2;
-    	thiefAlone: boolean;
     	caught: boolean;
     	stolen: boolean;
     	escaped: boolean;
@@ -15,13 +13,6 @@ Agent Environment
     Protocol:
     end Protocol
     Evolution:
-    	guardAlone = true if !(guardRoom = thiefRoom);
-    	thiefAlone = true if !(guardRoom = thiefRoom);
-    	guardAlone = false if guardRoom = thiefRoom;
-    	thiefAlone = false if guardRoom = thiefRoom;
-    	
-    	
-    	
 		guardRoom = 1 if guardRoom = 0 and Guard.Action = moveRight;
     	guardRoom = 2 if guardRoom = 1 and Guard.Action = moveRight;
     	guardRoom = 0 if guardRoom = 1 and Guard.Action = moveLeft;
@@ -34,20 +25,18 @@ Agent Environment
     	thiefRoom = 0 if thiefRoom = 0 and Thief.Action = wait;
     	thiefRoom = 1 if thiefRoom = 1 and Thief.Action = wait;
     	thiefRoom = 2 if thiefRoom = 2 and Thief.Action = wait;
-    	thiefRoom = 2 if thiefRoom = 2 and Thief.Action = steal;
-    	stolen = true if thiefRoom = 2 and Thief.Action = steal;
     	
-    	escaped = true if thiefRoom = 2 and stolen = true and Thief.Action = exit;
+    	stolen = true if Thief.Action = steal;
     	
-    	caught = true if thiefAlone = false and stolen = true;
-    	caught = true if thiefAlone = false and Thief.Action = steal;
+    	escaped = true if Thief.Action = exit;
     	
-    	
+    	caught = true if guardRoom = thiefRoom and stolen = true;
     end Evolution
 end Agent
 
+-- GUARD
 Agent Guard
-	Lobsvars = {guardRoom, guardAlone};
+	Lobsvars = {guardRoom};
     Vars:
     	goingLeft: boolean;
     	dummy: boolean;
@@ -66,8 +55,9 @@ Agent Guard
     end Evolution
 end Agent
 
+-- THIEF
 Agent Thief
-	Lobsvars = {thiefRoom, thiefAlone, stolen, caught};
+	Lobsvars = {thiefRoom, stolen, caught, guardRoom};
     Vars:
     	dummy: boolean;
     end Vars
@@ -76,8 +66,8 @@ Agent Thief
     	Environment.thiefRoom = 2: {wait, moveLeft};
     	Environment.thiefRoom = 0: {wait, moveRight};
     	Environment.thiefRoom = 1: {wait, moveRight, moveLeft};
-    	Environment.thiefRoom = 2 and Environment.thiefAlone = true: {steal};
     	Environment.thiefRoom = 2 and Environment.stolen = true and Environment.caught = false: {exit};
+    	Environment.thiefRoom = 2 and !(Environment.guardRoom = 2): {steal};
     end Protocol
     Evolution:
     	dummy = true if dummy = true;
@@ -91,7 +81,7 @@ Evaluation
 end Evaluation
 
 InitStates
-	Environment.guardRoom = 0 and Environment.thiefRoom = 0 and Environment.thiefAlone = false and Environment.guardAlone = false and Environment.stolen = false and Environment.escaped = false and Environment.caught = false;
+	Environment.guardRoom = 0 and Environment.thiefRoom = 0 and Environment.stolen = false and Environment.escaped = false and Environment.caught = false;
 end InitStates
 
 Groups
@@ -101,10 +91,12 @@ Groups
 end Groups
 
 Formulae
-	-- <gT> G !caught;
-    <gT> F (stolen and escaped);
+	--TEST
+	--<gT> G !caught;
+    --<gT> F (stolen and escaped);
     --!<gT> X stolen;
     --!<gT> G escaped;
     --!<gT> X caught;
-	<gT> (!caught U (stolen and escaped)); -- probably this to check that there is always a strategy to win
+
+	<gT> (!caught U (stolen and escaped));
 end Formulae

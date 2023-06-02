@@ -7,7 +7,7 @@
     thiefRoom=0
   Agent Guard
     dummy=true
-    goingLeft=false
+    goingLeft=true
   Agent Thief
-    dummy=false
+    dummy=true
 

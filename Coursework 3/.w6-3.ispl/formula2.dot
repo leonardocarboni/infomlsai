@@ -4,8 +4,8 @@ digraph witness1 {
  2 [label="2",shape=ellipse]
  3 [label="3",shape=ellipse]
  4 [label="4",shape=ellipse]
-    0 -> 1[label="<wait;moveRight>"]
-    1 -> 2[label="<moveRight;moveRight>"]
+    0 -> 1[label="<moveRight;moveRight>"]
+    1 -> 2[label="<wait;moveRight>"]
     2 -> 3[label="<wait;steal>"]
     3 -> 4[label="<wait;exit>"]
 }

@@ -2,13 +2,12 @@
   Agent Environment
     caught=false
     escaped=false
-    guardAlone=false
     guardRoom=0
     stolen=false
-    thiefAlone=false
     thiefRoom=0
   Agent Guard
-    dummy=true
+    dummy=false
+    goingLeft=true
   Agent Thief
     dummy=false
 
@@ -16,13 +15,12 @@
   Agent Environment
     caught=false
     escaped=false
-    guardAlone=false
-    guardRoom=0
+    guardRoom=1
     stolen=false
-    thiefAlone=false
     thiefRoom=1
   Agent Guard
-    dummy=true
+    dummy=false
+    goingLeft=false
   Agent Thief
     dummy=false
 
@@ -30,13 +28,12 @@
   Agent Environment
     caught=false
     escaped=false
-    guardAlone=true
     guardRoom=1
     stolen=false
-    thiefAlone=true
     thiefRoom=2
   Agent Guard
-    dummy=true
+    dummy=false
+    goingLeft=false
   Agent Thief
     dummy=false
 
@@ -44,13 +41,12 @@
   Agent Environment
     caught=false
     escaped=false
-    guardAlone=true
     guardRoom=1
     stolen=true
-    thiefAlone=true
     thiefRoom=2
   Agent Guard
-    dummy=true
+    dummy=false
+    goingLeft=false
   Agent Thief
     dummy=false
 
@@ -58,13 +54,12 @@
   Agent Environment
     caught=false
     escaped=true
-    guardAlone=true
     guardRoom=1
     stolen=true
-    thiefAlone=true
     thiefRoom=2
   Agent Guard
-    dummy=true
+    dummy=false
+    goingLeft=false
   Agent Thief
     dummy=false
 

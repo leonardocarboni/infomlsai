@@ -1,5 +1,4 @@
 digraph witness0 {
  0 [label="0",shape=ellipse]
- 1 [label="1",shape=ellipse]
-    0 -> 1[label="<moveRight;moveRight>"]
+    0 -> 0[label="<wait;wait>"]
 }

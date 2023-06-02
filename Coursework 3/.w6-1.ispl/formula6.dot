@@ -1,5 +1,14 @@
 digraph witness5 {
  0 [label="0",shape=ellipse]
  1 [label="1",shape=ellipse]
-    0 -> 1[label="<play1;play1>"]
+ 2 [label="2",shape=ellipse]
+ 3 [label="3",shape=ellipse]
+ 4 [label="4",shape=ellipse]
+ 5 [label="5",shape=ellipse]
+    0 -> 1[label="<play2;play1>"]
+    1 -> 2[label="<play1;play2>"]
+    2 -> 1[label="<play2;play1>"]
+    0 -> 3[label="<play1;play1>"]
+    1 -> 4[label="<play2;play2>"]
+    2 -> 5[label="<play1;play1>"]
 }
